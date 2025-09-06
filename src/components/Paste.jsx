@@ -29,16 +29,15 @@ const ViewPaste = () => {
       try {
         await navigator.share(shareData);
       } catch (err) {
-        console.error("Share failed:", err);
+        toast.error("Sharing failed");
       }
     } else {
       // Fallback: copy link
       try {
         await navigator.clipboard.writeText(shareData.url);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        toast.success("Link copied to clipboard!");
       } catch (err) {
-        console.error("Copy failed:", err);
+        toast.error("Failed to copy link");
       }
     }
   };
