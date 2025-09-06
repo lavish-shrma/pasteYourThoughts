@@ -27,14 +27,6 @@ const Home = () => {
       _id: pasteId || Date.now().toString(36),
       createdAt: new Date().toISOString(),
     };
-    // dispatch(
-    //   addToPaste({
-    //     title,
-    //     content: value,
-    //     _id: paste._id,
-    //     createdAt: paste.createdAt,
-    //   })
-    // );
 
     if (pasteId) {
       // update
