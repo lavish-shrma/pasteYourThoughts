@@ -8,6 +8,8 @@ const ViewPaste = () => {
   const pastes = useSelector((state) => state.paste.pastes);
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
+  const [copied, setCopied] = useState(false);
+
   const filteredData = pastes.filter((paste) =>
     paste.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -15,6 +17,31 @@ const ViewPaste = () => {
   function handleDelete(pasteId) {
     dispatch(removeFromPaste(pasteId));
   }
+
+  const shareData = {
+    title: "pasteYourThoughts",
+    text: "Check out this paste app!",
+    url: window.location.href,
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error("Share failed:", err);
+      }
+    } else {
+      // Fallback: copy link
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error("Copy failed:", err);
+      }
+    }
+  };
 
   return (
     <>
@@ -35,12 +62,12 @@ const ViewPaste = () => {
                 <div className="p-2">{paste.content}</div>
                 <div className="flex flex-row gap-4 place-content-evenly">
                   <button>
-                    <a href={`/?pasteId=${paste?._id}`}>Edit</a>
+                    <NavLink href={`/?pasteId=${paste?._id}`}>Edit</NavLink>
                   </button>
                   <button>
-                    <a href={`/paste/${paste?._id}`} target="_blank">
+                    <NavLink href={`/paste/${paste?._id}`} target="_blank">
                       view
-                    </a>
+                    </NavLink>
                   </button>
                   <button onClick={() => handleDelete(paste?._id)}>
                     Delete
@@ -53,7 +80,9 @@ const ViewPaste = () => {
                   >
                     Copy
                   </button>
-                  <button>Share</button>
+                  <button onClick={handleShare}>
+                    {copied ? "Link copies" : "share"}
+                  </button>
                 </div>
                 <div>
                   {paste.createdAt
