@@ -63,6 +63,7 @@ const ViewPaste = () => {
               </div>
             );
           })}
+        <div>Crafted by Lavish with Love &lt;3</div>
       </div>
     </>
   );
