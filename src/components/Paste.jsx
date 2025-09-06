@@ -81,7 +81,7 @@ const ViewPaste = () => {
                     Copy
                   </button>
                   <button onClick={handleShare}>
-                    {copied ? "Link copies" : "share"}
+                    {copied ? "Link copied" : "Share"}
                   </button>
                 </div>
                 <div>
